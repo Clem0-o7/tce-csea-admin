@@ -1,4 +1,3 @@
-// pages/api/auth/[...nextauth].js
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@/db/db';
@@ -54,7 +53,7 @@ export const authOptions = {
     })
   ],
   pages: {
-    signIn: '/admin/login'
+    signIn: '/login' // Changed from '/admin/login' to '/login'
   },
   callbacks: {
     async jwt({ token, user }) {

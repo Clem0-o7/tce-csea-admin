@@ -1,4 +1,3 @@
-// middleware.js
 import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
@@ -9,7 +8,7 @@ export default withAuth(
       
       // Always allow these paths
       if (
-        pathname === '/admin/login' ||
+        pathname === '/login' || // Allow the new login page
         pathname.startsWith('/api/auth/') ||
         pathname.includes('/_next/')
       ) {
@@ -20,14 +19,14 @@ export default withAuth(
       if (pathname.startsWith('/admin')) {
         const token = req.nextauth.token;
         if (!token) {
-          return NextResponse.redirect(new URL('/admin/login', req.url));
+          return NextResponse.redirect(new URL('/login', req.url)); // Redirect to /login
         }
       }
 
       return NextResponse.next();
     } catch (error) {
       console.error('Middleware error:', error);
-      return NextResponse.redirect(new URL('/admin/login', req.url));
+      return NextResponse.redirect(new URL('/login', req.url)); // Redirect to /login on error
     }
   },
   {
@@ -35,7 +34,7 @@ export default withAuth(
       authorized: ({ token, req }) => {
         // Allow public paths
         if (
-          req.nextUrl.pathname === '/admin/login' ||
+          req.nextUrl.pathname === '/login' ||
           req.nextUrl.pathname.startsWith('/api/auth/')
         ) {
           return true;
